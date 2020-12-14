@@ -1,0 +1,34 @@
+\documentclass[24pt]{article}
+\usepackage{geometry}
+\geometry{a4paper, margin=10mm}
+\usepackage{subcaption}
+\usepackage{tikz}
+
+\pagestyle{empty}
+
+\begin{document}
+\Huge{Ten} \Huge\textbf{Frames}
+
+\begin{figure*}[h!]
+\newcount\idx
+\idx=0
+\loop
+	\vspace*{10mm}
+	\begin{subfigure}{.5\textwidth}
+	\centering{
+	    \resizebox{.95\textwidth}{!}{\input{tenframe.tex}}
+	}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+	\centering{
+	    \resizebox{.95\textwidth}{!}{\input{tenframe.tex}}
+	}
+	\end{subfigure}
+	
+\advance \idx 1
+\ifnum \idx<5
+\repeat
+
+\end{figure*}
+
+\end{document}
