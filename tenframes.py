@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+import pathlib
 import subprocess
 import tempfile
 import random
@@ -45,13 +46,14 @@ def generate_ten_frame(count):
 
 
 def main():
+    total_pages = 10
     with tempfile.TemporaryDirectory() as d:
-        tex_main = os.path.join(d, 'tenframe-main.tex')
-        with open(tex_main, 'w') as f:
+        tex_main_path = pathlib.Path(d) / 'tenframes.tex'
+        with open(tex_main_path, 'w') as f:
             f.write(tex_doc_header)
 
             page = 0
-            while page < 10:
+            while page < total_pages:
                 frames = list(range(11))
                 random.shuffle(frames)
                 frames.pop()
@@ -60,7 +62,7 @@ def main():
 
                 count = 0
                 for frame in frames:
-                    frame_name = 'tenframe%02d-%02d.tex' % (page, count)
+                    frame_name = f'tenframe{page:02d}-{count:02d}.tex'
                     frame_path = os.path.join(d, frame_name)
                     with open(frame_path, 'w') as g:
                         g.write(generate_ten_frame(frame))
@@ -78,11 +80,12 @@ def main():
                 f.write('\\pagebreak\n')
                 page += 1
             f.write(tex_doc_footer)
-        with open(tex_main) as f:
+        with open(tex_main_path) as f:
             print(f.read())
 
-        subprocess.call(['pdflatex', tex_main])
+        subprocess.call(['pdflatex', tex_main_path])
 
 
 if __name__ == '__main__':
     main()
+
